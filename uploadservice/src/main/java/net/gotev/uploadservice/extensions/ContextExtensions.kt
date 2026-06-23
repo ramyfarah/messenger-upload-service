@@ -1,9 +1,13 @@
 package net.gotev.uploadservice.extensions
 
+import android.annotation.SuppressLint
 import android.app.PendingIntent
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Build
+import android.os.Build.VERSION.SDK_INT
 import net.gotev.uploadservice.UploadService
 import net.gotev.uploadservice.UploadServiceConfig
 import net.gotev.uploadservice.UploadTask
@@ -226,4 +230,13 @@ fun flagsCompat(flags: Int): Int {
     }
 
     return flags
+}
+
+@SuppressLint("UnspecifiedRegisterReceiverFlag")
+fun Context.registerReceiverCompat(receiver: BroadcastReceiver, filter: IntentFilter) {
+    if (SDK_INT >= 34) {
+        registerReceiver(receiver, filter, Context.RECEIVER_NOT_EXPORTED)
+    } else {
+        registerReceiver(receiver, filter)
+    }
 }
