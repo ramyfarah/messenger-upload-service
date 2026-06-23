@@ -227,3 +227,12 @@ fun flagsCompat(flags: Int): Int {
 
     return flags
 }
+
+@SuppressLint("UnspecifiedRegisterReceiverFlag")
+fun Context.registerReceiverCompat(receiver: BroadcastReceiver, filter: IntentFilter) {
+    if (SDK_INT >= 34) {
+        registerReceiver(receiver, filter, RECEIVER_NOT_EXPORTED)
+    } else {
+        registerReceiver(receiver, filter)
+    }
+}
